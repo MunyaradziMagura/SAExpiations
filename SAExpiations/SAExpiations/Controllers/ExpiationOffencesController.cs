@@ -22,9 +22,14 @@ namespace SAExpiations.Controllers
         // GET: ExpiationOffences
         public async Task<IActionResult> Index()
         {
-              return _context.ExpiationOffences != null ? 
-                          View(await _context.ExpiationOffences.ToListAsync()) :
-                          Problem("Entity set 'ExpiationsContext.ExpiationOffences'  is null.");
+            //from parentTable in _context.ExpiationOffences let ExpiationCount = (
+            //from childTable in _context.Expiations
+            //where parentTable.ExpiationOffenceCode == childTable.ExpiationOffenceCode
+            //select childTable
+            //).Count() select new { ExpiationOffenceCode = parentTable.ExpiationOffenceCode,  }
+
+            var result = await _context.ExpiationOffences.ToListAsync();    
+              return View(result);
         }
 
         // GET: ExpiationOffences/Details/5
