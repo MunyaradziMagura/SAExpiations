@@ -7,5 +7,7 @@
         public string? ExpiationOffenceDescription { get; set; }
         public int? ExpiationCount{ get; set; }
 
+        public bool? ShowActiveExpiation { get; set; }
+
     }
 }

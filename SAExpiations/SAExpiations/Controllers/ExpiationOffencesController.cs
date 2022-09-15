@@ -26,6 +26,9 @@ namespace SAExpiations.Controllers
         // GET: ExpiationOffences
         public async Task<IActionResult> Index()
         {
+
+            
+            
             // only expiations with offence counts
             var query = (from a in _context.ExpiationOffences
                          join b in _context.Expiations
