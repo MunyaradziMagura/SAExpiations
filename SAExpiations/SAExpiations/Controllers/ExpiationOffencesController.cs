@@ -26,16 +26,21 @@ namespace SAExpiations.Controllers
         // GET: ExpiationOffences
         public async Task<IActionResult> Index()
         {
+            // only expiations with offence counts
             var query = (from a in _context.ExpiationOffences
-                        join b in _context.Expiations
-                        on a.ExpiationOffenceCode equals b.ExpiationOffenceCode
-                        select new { ExpiationOffenceCode = a.ExpiationOffenceCode, ExpiationOffenceDescription = a.ExpiationOffenceDescription, ExpiationOffenceCodeCount = b.ExpiationOffenceCode}).GroupBy(offence => new { ExpiationOffenceCode = offence.ExpiationOffenceCode, ExpiationOffenceDescription = offence.ExpiationOffenceDescription })
-                .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count()  });
+                         join b in _context.Expiations
+                         on a.ExpiationOffenceCode equals b.ExpiationOffenceCode
+                         select new { ExpiationOffenceCode = a.ExpiationOffenceCode, ExpiationOffenceDescription = a.ExpiationOffenceDescription, ExpiationOffenceCodeCount = b.ExpiationOffenceCode }).GroupBy(offence => new { ExpiationOffenceCode = offence.ExpiationOffenceCode, ExpiationOffenceDescription = offence.ExpiationOffenceDescription })
+                .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count() });
 
-            
-
+            // show all expiations 
+            var query2 = _context.ExpiationOffences.Select(p => new ExpiationCounter {
+            ExpiationOffenceCode = p.ExpiationOffenceCode,
+                ExpiationOffenceDescription = p.ExpiationOffenceDescription,
+                ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode).Count()
+            });
             //var result = await _context.ExpiationOffences.ToListAsync();
-            var result = query.ToList();
+            var result = query2.ToList();
 
             return View(result);
         }
