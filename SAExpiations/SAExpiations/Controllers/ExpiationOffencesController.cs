@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using SAExpiations.Data;
 using SAExpiations.Models;
+using SAExpiations.ViewModels;
 
 namespace SAExpiations.Controllers
 {
@@ -22,14 +26,18 @@ namespace SAExpiations.Controllers
         // GET: ExpiationOffences
         public async Task<IActionResult> Index()
         {
-            //from parentTable in _context.ExpiationOffences let ExpiationCount = (
-            //from childTable in _context.Expiations
-            //where parentTable.ExpiationOffenceCode == childTable.ExpiationOffenceCode
-            //select childTable
-            //).Count() select new { ExpiationOffenceCode = parentTable.ExpiationOffenceCode,  }
+            var query = (from a in _context.ExpiationOffences
+                        join b in _context.Expiations
+                        on a.ExpiationOffenceCode equals b.ExpiationOffenceCode
+                        select new { ExpiationOffenceCode = a.ExpiationOffenceCode, ExpiationOffenceDescription = a.ExpiationOffenceDescription, ExpiationOffenceCodeCount = b.ExpiationOffenceCode}).GroupBy(offence => new { ExpiationOffenceCode = offence.ExpiationOffenceCode, ExpiationOffenceDescription = offence.ExpiationOffenceDescription })
+                .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count()  });
 
-            var result = await _context.ExpiationOffences.ToListAsync();    
-              return View(result);
+            
+
+            //var result = await _context.ExpiationOffences.ToListAsync();
+            var result = query.ToList();
+
+            return View(result);
         }
 
         // GET: ExpiationOffences/Details/5

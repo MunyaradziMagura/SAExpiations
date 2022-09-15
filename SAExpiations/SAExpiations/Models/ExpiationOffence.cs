@@ -7,7 +7,6 @@ namespace SAExpiations.Models
     {
         public string ExpiationOffenceCode { get; set; } = null!;
         public string? ExpiationOffenceDescription { get; set; }
-
         public virtual ExpiationCategory ExpiationCategory { get; set; } = null!;
     }
 }

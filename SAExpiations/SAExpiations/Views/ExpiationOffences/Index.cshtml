@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SAExpiations.Models.ExpiationOffence>
+﻿@*@model IEnumerable<SAExpiations.Models.ExpiationOffence>*@
+@model IEnumerable<SAExpiations.ViewModels.ExpiationCounter>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,41 +7,49 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</nav>
+
 <table class="table table-striped table-hover" data-pagination="true" data-page-list="[10, 25, 50, 100, 200, All]">
     <thead>
         <tr>
             <th>
-                <h2>Expiation Offence Code</h2>
+                <p>Expiation Offence Code</p>
             </th>
             <th>
-                <h2>Expiation Offence Description</h2>
+                <p>Expiation Offence Description</p>
             </th>
             <th>
-                <h2>Details</h2>
+                <p>Number of Expiation Offences</p>
+            </th>
+            <th>
+                <p>Details</p>
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-            if (item.ExpiationOffenceCode.Length > 3) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ExpiationOffenceCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ExpiationOffenceDescription)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ExpiationOffenceCode">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ExpiationOffenceCode">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ExpiationOffenceCode">Delete</a>
-                    </td>
-                </tr>
-            }
-
-}
+    @foreach (var item in Model) {
+        if (item.ExpiationOffenceCode.Length > 3) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiationOffenceCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiationOffenceDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiationCount)
+                </td>
+                <td>
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ExpiationOffenceCode">Details</a>
+                </td>
+            </tr>
+        }
+    }
     </tbody>
 </table>
