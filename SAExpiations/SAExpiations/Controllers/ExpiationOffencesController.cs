@@ -24,7 +24,7 @@ namespace SAExpiations.Controllers
         }
 
         // GET: ExpiationOffences
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? SearchText)
         {
 
             
@@ -63,7 +63,9 @@ namespace SAExpiations.Controllers
                 return NotFound();
             }
 
-            return View(expiationOffence);
+            var result = _context.Expiations.Find(id);
+
+            return View(result);
         }
 
         // GET: ExpiationOffences/Create
