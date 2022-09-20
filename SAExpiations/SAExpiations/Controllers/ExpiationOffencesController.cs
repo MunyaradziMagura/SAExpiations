@@ -30,11 +30,11 @@ namespace SAExpiations.Controllers
             
             
             // only expiations with offence counts
-            var query = (from a in _context.ExpiationOffences
-                         join b in _context.Expiations
-                         on a.ExpiationOffenceCode equals b.ExpiationOffenceCode
-                         select new { ExpiationOffenceCode = a.ExpiationOffenceCode, ExpiationOffenceDescription = a.ExpiationOffenceDescription, ExpiationOffenceCodeCount = b.ExpiationOffenceCode }).GroupBy(offence => new { ExpiationOffenceCode = offence.ExpiationOffenceCode, ExpiationOffenceDescription = offence.ExpiationOffenceDescription })
-                .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count() });
+            //var query = (from a in _context.ExpiationOffences
+            //             join b in _context.Expiations
+            //             on a.ExpiationOffenceCode equals b.ExpiationOffenceCode
+            //             select new { ExpiationOffenceCode = a.ExpiationOffenceCode, ExpiationOffenceDescription = a.ExpiationOffenceDescription, ExpiationOffenceCodeCount = b.ExpiationOffenceCode }).GroupBy(offence => new { ExpiationOffenceCode = offence.ExpiationOffenceCode, ExpiationOffenceDescription = offence.ExpiationOffenceDescription })
+            //    .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count() });
 
             // show all expiations 
             var query2 = _context.ExpiationOffences.Select(p => new ExpiationCounter {
@@ -63,9 +63,7 @@ namespace SAExpiations.Controllers
                 return NotFound();
             }
 
-            var result = _context.Expiations.Find(id);
-
-            return View(result);
+            return View(expiationOffence);
         }
 
         // GET: ExpiationOffences/Create
