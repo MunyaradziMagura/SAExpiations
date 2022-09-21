@@ -5,8 +5,9 @@
 
         public string ExpiationOffenceCode { get; set; } = null!;
         public string NoticeStatusDesc { get; set; } = null!;
-        public string IssueDate { get; set; }
+        public int IssueDate { get; set; }
         public int StatusCount { get; set; }
+
 
 
     }
