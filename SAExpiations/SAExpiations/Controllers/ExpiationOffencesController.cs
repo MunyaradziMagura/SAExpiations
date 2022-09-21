@@ -63,7 +63,6 @@ namespace SAExpiations.Controllers
                 return NotFound();
             }
             // join expiations database and the expiation offences database
-            //var query = await _context.Expiations.Where(e => e.ExpiationOffenceCode == id).ToListAsync();
 
             var year = 2021;
             // groupby
@@ -78,12 +77,6 @@ namespace SAExpiations.Controllers
 
             var result = query2.ToList();
 
-            result.ForEach((e) => {
-                Console.WriteLine(e.IssueDate);
-                Console.WriteLine(e.NoticeStatusDesc);
-                Console.WriteLine(e.StatusCount);
-            });
-            //return View(expiationOffence);
             return View(result);
         }
 
