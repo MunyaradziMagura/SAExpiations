@@ -83,7 +83,8 @@ namespace SAExpiations.Controllers
                 Console.WriteLine(e.NoticeStatusDesc);
                 Console.WriteLine(e.StatusCount);
             });
-            return View(expiationOffence);
+            //return View(expiationOffence);
+            return View(result);
         }
 
         // GET: ExpiationOffences/Create
