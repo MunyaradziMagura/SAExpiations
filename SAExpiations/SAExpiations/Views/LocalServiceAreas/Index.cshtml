@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SAExpiations.Models.LocalServiceArea>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Local Service Area</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Service Area
+            </th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocalServiceAreaCode)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocalServiceArea1)
+            </td>
+            <td>
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.LocalServiceAreaCode">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
