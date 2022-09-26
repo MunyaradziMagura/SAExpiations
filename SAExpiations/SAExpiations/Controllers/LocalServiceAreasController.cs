@@ -48,8 +48,31 @@ namespace SAExpiations.Controllers
             {
                 return NotFound();
             }
+            var year = 2022;
 
-            return View(localServiceArea);
+           
+                var query = _context.Expiations.Where(e => e.IssueDate.Year == year & e.LocalServiceAreaCode == id).GroupBy(e => new
+                {
+                    SelectedArea = e.LocalServiceAreaCode,
+                    SelectedYear = year,
+                    ExpiationCode = e.ExpiationOffenceCode,
+                    ExpiationDescription = e.NoticeStatusDesc
+
+                }).Select(a => new LocationServicesDetails
+                {
+                    SelectedArea = a.Key.SelectedArea,
+                    SelectedYear = a.Key.SelectedYear,
+                    ExpiationCode = a.Key.ExpiationCode,
+                    ExpiationDescription = a.Key.ExpiationDescription,
+                    TotalExpiations = a.Count()
+
+
+                }).OrderBy(e => e.ExpiationCode);
+
+                var result = await query.ToArrayAsync();
+            
+
+            return View(result);
         }
 
         // GET: LocalServiceAreas/Create

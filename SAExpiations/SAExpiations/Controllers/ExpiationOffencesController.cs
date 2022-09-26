@@ -63,7 +63,7 @@ namespace SAExpiations.Controllers
                 return NotFound();
             }
             // join expiations database and the expiation offences database
-
+            
             var year = 2021;
             // groupby
             var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == year).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
