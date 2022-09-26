@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SAExpiations.Data;
 using SAExpiations.Models;
+using SAExpiations.ViewModels;
 
 namespace SAExpiations.Controllers
 {
@@ -22,7 +23,15 @@ namespace SAExpiations.Controllers
         // GET: LocalServiceAreas
         public async Task<IActionResult> Index()
         {
-              return View(await _context.LocalServiceAreas.ToListAsync());
+            // get number of expiations per location
+            var query = _context.LocalServiceAreas.Select(p => new LocationExpiationCounter {
+            LocalServiceAreaCode = p.LocalServiceAreaCode,
+                LocalServiceArea1 = p.LocalServiceArea1,
+                NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode).Count()
+            });
+            
+            
+            return View(await query.ToListAsync());
         }
 
         // GET: LocalServiceAreas/Details/5
