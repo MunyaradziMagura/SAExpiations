@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using SAExpiations.Data;
 using SAExpiations.Models;
 using SAExpiations.ViewModels;
@@ -48,28 +50,79 @@ namespace SAExpiations.Controllers
             {
                 return NotFound();
             }
+
+            // selected year
             var year = 2022;
 
-           
-                var query = _context.Expiations.Where(e => e.IssueDate.Year == year & e.LocalServiceAreaCode == id).GroupBy(e => new
+
+            //var query = _context.Expiations.Where(e => e.IssueDate.Year == year & e.LocalServiceAreaCode == id).GroupBy(e => new
+            //{
+            //    SelectedArea = e.LocalServiceAreaCode,
+            //    SelectedYear = year,
+            //    ExpiationCode = e.ExpiationOffenceCode,
+            //    ExpiationDescription = e.NoticeStatusDesc
+
+            //}).Select(a => new LocationServicesDetails
+            //{
+            //    SelectedArea = a.Key.SelectedArea,
+            //    SelectedYear = a.Key.SelectedYear,
+            //    ExpiationCode = a.Key.ExpiationCode,
+            //    ExpiationDescription = a.Key.ExpiationDescription,
+            //    TotalExpiations = a.Count()
+
+
+            //}).OrderBy(e => e.ExpiationCode);
+
+
+
+            // selecting locations and expiations 
+            var selectExpiationByLocation = (from location in _context.LocalServiceAreas
+                                             where location.LocalServiceAreaCode == id
+                                             join expiation in _context.Expiations on location.LocalServiceAreaCode equals expiation.LocalServiceAreaCode
+                                             select new {
+                                                 selectedAreaCode = location.LocalServiceAreaCode.ToString(),
+                                                 SelectedArea = location.LocalServiceArea1,
+                                                 ExpiationCode = expiation.ExpiationOffenceCode,
+                                                 SelectedYear = expiation.IssueDate.Year
+
+                                             });
+
+
+            var locationDetails2 = (from a in selectExpiationByLocation
+                                   join b in _context.ExpiationOffences
+                                   on a.ExpiationCode equals b.ExpiationOffenceCode
+                                   select new {
+                                       selectedAreaCode = a.selectedAreaCode,
+                                       SelectedArea = a.SelectedArea,
+                                       SelectedYear = a.SelectedYear,
+                                       ExpiationCode = a.ExpiationCode,
+                                       ExpiationDescription = b.ExpiationOffenceDescription
+                                   });
+            //var query3 = from p in locationDetails2
+            //             group p by p.ExpiationCode 
+            //             into g
+            //            select new { g.Key, Count = g.Count() };
+
+            var query4 = locationDetails2.GroupBy(x => new { 
+                ExpiationCode = x.ExpiationCode,
+
+                ExpiationDescription = x.ExpiationDescription }).Select(z => new LocationServicesDetails
                 {
-                    SelectedArea = e.LocalServiceAreaCode,
+                    ExpiationCode = z.Key.ExpiationCode,
+                    ExpiationDescription = z.Key.ExpiationDescription,
+                    TotalExpiations = z.Count(),
                     SelectedYear = year,
-                    ExpiationCode = e.ExpiationOffenceCode,
-                    ExpiationDescription = e.NoticeStatusDesc
+                    SelectedArea = id
 
-                }).Select(a => new LocationServicesDetails
-                {
-                    SelectedArea = a.Key.SelectedArea,
-                    SelectedYear = a.Key.SelectedYear,
-                    ExpiationCode = a.Key.ExpiationCode,
-                    ExpiationDescription = a.Key.ExpiationDescription,
-                    TotalExpiations = a.Count()
+                });
 
+            await query4.ForEachAsync((e) => {
 
-                }).OrderBy(e => e.ExpiationCode);
+                Console.WriteLine(e.ExpiationCode);
+                Console.WriteLine("|||");
+            });
 
-                var result = await query.ToArrayAsync();
+           var result = await query4.ToArrayAsync();
             
 
             return View(result);

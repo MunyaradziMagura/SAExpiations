@@ -34,7 +34,8 @@
                         var myClass = (item.TotalExpiations <= 0) ? "empty" : item.TotalExpiations.ToString();
                         <tr class="@myClass">
                             <td>
-                                @Html.DisplayFor(modelItem => item.ExpiationCode)
+
+                            @Html.DisplayFor(modelItem => item.ExpiationCode)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ExpiationDescription)
