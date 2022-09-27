@@ -52,7 +52,7 @@ namespace SAExpiations.Controllers
             }
 
             // selected year
-            var year = 2022;
+            var year = 2021;
 
 
             //var query = _context.Expiations.Where(e => e.IssueDate.Year == year & e.LocalServiceAreaCode == id).GroupBy(e => new
@@ -89,6 +89,7 @@ namespace SAExpiations.Controllers
 
 
             var locationDetails2 = (from a in selectExpiationByLocation
+                                    where a.SelectedYear == year
                                    join b in _context.ExpiationOffences
                                    on a.ExpiationCode equals b.ExpiationOffenceCode
                                    select new {
