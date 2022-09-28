@@ -6,6 +6,19 @@
     string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
     int total = 0;
     int yearlyTotal = 0;
+    // this will store the colours for each expiation
+    Dictionary<string, string> colours = new Dictionary<string, string>();
+    colours.Add("COURTS RELIEF STATUS", "table-primary");
+    colours.Add("EXPIATED", "table-secondary");
+    colours.Add("COURTS ENFORCEMENT (pending or enforced)", "table-dark");
+    colours.Add("WITHDRAWN","table-success");
+    colours.Add("ISSUED OR CAUTIONED", "table-warning");
+    colours.Add("MULTIPLE OFFENCES - PROCESSED", "table-info");
+    colours.Add("INVALID", "table-light");
+    colours.Add("SUSPENDED FOR ENQUIRY", "table-danger");
+
+};
+
 }
 
 <h1>Details</h1>
@@ -26,9 +39,9 @@
                 <th colspan="3" scope="row">@months[month]</th>
             @foreach(var item in Model){
                 
-                    if (item.IssueDate == month)
+                    if (item.IssueDate == month + 1)
                     {
-                    <tr>
+                    <tr class="@colours[item.NoticeStatusDesc]">
                         <td colspan="2">
                                 @Html.DisplayFor(modelItem => item.NoticeStatusDesc)
                         </td>
@@ -43,9 +56,9 @@
                     </tr>
                     }
             }
-            <tr class="table-danger font-weight-bold">
-                <td colspan="2" class="table-danger text-end font-weight-bold">@months[month] Total:</td>
-                <td colspan="1" class="table-danger font-weight-bold">@total offences</td>
+            <tr class="bg-primary font-weight-bold">
+                <td colspan="2" class="bg-primary text-end font-weight-bold">@months[month] Total:</td>
+                <td colspan="1" class="bg-primary font-weight-bold">@total offences</td>
                 @{total = 0;}
             </tr>
             </tr>

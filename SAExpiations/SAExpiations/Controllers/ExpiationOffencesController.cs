@@ -64,7 +64,7 @@ namespace SAExpiations.Controllers
             }
             // join expiations database and the expiation offences database
             
-            var year = 2021;
+            var year = 2022;
             // groupby
             var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == year).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
 
@@ -73,7 +73,7 @@ namespace SAExpiations.Controllers
                 StatusCount = y.Count(),
                 ExpiationOffenceCode = id
 
-            });
+            }).OrderBy(e => e.NoticeStatusDesc);
 
             var result = query2.ToList();
 

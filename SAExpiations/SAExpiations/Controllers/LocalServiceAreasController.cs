@@ -117,11 +117,6 @@ namespace SAExpiations.Controllers
 
                 });
 
-            await query4.ForEachAsync((e) => {
-
-                Console.WriteLine(e.ExpiationCode);
-                Console.WriteLine("|||");
-            });
 
            var result = await query4.ToArrayAsync();
             
