@@ -24,11 +24,11 @@ namespace SAExpiations.Controllers
         }
 
         // GET: ExpiationOffences
-        public async Task<IActionResult> Index(string? SearchText)
+        public async Task<IActionResult> Index(ExpiationCounter? userSearch)
         {
 
-            
-            
+
+
             // only expiations with offence counts
             //var query = (from a in _context.ExpiationOffences
             //             join b in _context.Expiations
@@ -37,15 +37,26 @@ namespace SAExpiations.Controllers
             //    .Select(x => new ExpiationCounter { ExpiationOffenceCode = x.Key.ExpiationOffenceCode, ExpiationOffenceDescription = x.Key.ExpiationOffenceDescription, ExpiationCount = x.Count() });
 
             // show all expiations 
-            var query2 = _context.ExpiationOffences.Select(p => new ExpiationCounter {
-            ExpiationOffenceCode = p.ExpiationOffenceCode,
+            var query2 = _context.ExpiationOffences.Select(p => new ExpiationCounter
+            {
+                ExpiationOffenceCode = p.ExpiationOffenceCode,
                 ExpiationOffenceDescription = p.ExpiationOffenceDescription,
+                SearchText = userSearch.SearchText,
                 ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode).Count()
             });
-            //var result = await _context.ExpiationOffences.ToListAsync();
-            var result = query2.ToList();
 
-            return View(result);
+
+            if (!string.IsNullOrWhiteSpace(userSearch.SearchText))
+            {
+                var result = query2.Where(e => e.ExpiationOffenceCode.StartsWith(userSearch.SearchText) | e.ExpiationOffenceDescription.StartsWith(userSearch.SearchText)).OrderBy(e => e.ExpiationOffenceCode).ToList();
+                return View(result);
+            }
+            else
+            {
+                var result = query2.ToList();
+                return View(result);
+            }
+
         }
 
         // GET: ExpiationOffences/Details/5

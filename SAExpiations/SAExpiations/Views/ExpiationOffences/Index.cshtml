@@ -26,14 +26,19 @@
                             <div class="input-group-text" style="max-height: 100%">
                               <input type="checkbox" id="filter" aria-label="Filter"> Filter Results
                             </div>
+
                           </div>
                            
                         </div>
 
                     </li>
                     <li class="nav-item">
-                        @*asp-for="searchName"*@
-                        <input maxlength="100" class="form-control me-2" type="search" placeholder="Search by category" aria-label="Search">
+                        <!--Input box for search-->
+                        <input maxlength="100" list="itemsList" class="form-control me-2" type="search" name="SearchText" placeholder="Search by category" aria-label="Search">
+                        <datalist id="itemsList"  >@foreach (var item in Model)
+                                                   {
+                                <option>@item.ExpiationOffenceCode</option>
+                            }</datalist>
                     </li>
                     <li class="nav-item" style="padding-left: 1rem">
                         <button class="btn btn-outline-success" type="submit">Search</button>
