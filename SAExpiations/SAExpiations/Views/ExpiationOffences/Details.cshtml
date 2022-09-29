@@ -8,14 +8,14 @@
     int yearlyTotal = 0;
     // this will store the colours for each expiation
     Dictionary<string, string> colours = new Dictionary<string, string>();
-    colours.Add("COURTS RELIEF STATUS", "table-primary");
-    colours.Add("EXPIATED", "table-secondary");
-    colours.Add("COURTS ENFORCEMENT (pending or enforced)", "table-dark");
-    colours.Add("WITHDRAWN","table-success");
-    colours.Add("ISSUED OR CAUTIONED", "table-warning");
-    colours.Add("MULTIPLE OFFENCES - PROCESSED", "table-info");
-    colours.Add("INVALID", "table-light");
-    colours.Add("SUSPENDED FOR ENQUIRY", "table-danger");
+    colours.Add("COURTS RELIEF STATUS", "table-primary text-white fs-4");
+    colours.Add("EXPIATED", "bg-danger text-white fs-4");
+    colours.Add("COURTS ENFORCEMENT (pending or enforced)", "bg-secondary text-white fs-4");
+    colours.Add("WITHDRAWN", "bg-success text-white fs-4");
+    colours.Add("ISSUED OR CAUTIONED", "table-warning text-dark fs-4");
+    colours.Add("MULTIPLE OFFENCES - PROCESSED", "bg-info text-white fs-4");
+    colours.Add("INVALID", "bg-light text-dark fs-4");
+    colours.Add("SUSPENDED FOR ENQUIRY", "bg-white text-dark fs-4");
 
 };
 
@@ -51,12 +51,11 @@
                                 @{
                                     total += @item.StatusCount; yearlyTotal += @item.StatusCount;
                                 }
-       
                         </td>
                     </tr>
                     }
             }
-            <tr class="bg-primary font-weight-bold">
+            <tr class="bg-primary font-weight-bold fs-3 fw-bolder">
                 <td colspan="2" class="bg-primary text-end font-weight-bold">@months[month] Total:</td>
                 <td colspan="1" class="bg-primary font-weight-bold">@total offences</td>
                 @{total = 0;}
@@ -67,7 +66,7 @@
         <table class="table table-striped table-hover">
             <tr>
         <!-- visualise yearly total -->
-        <td colspan="3" class="text-end font-weight-bold">Yearly Total: @yearlyTotal</td>
+            <td colspan="3" class="text-end font-weight-bold fs-2">Yearly Total: @yearlyTotal</td>
         </tr>
         @{
             yearlyTotal = 0;
