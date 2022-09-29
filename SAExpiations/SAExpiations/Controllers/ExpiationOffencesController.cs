@@ -60,7 +60,7 @@ namespace SAExpiations.Controllers
         }
 
         // GET: ExpiationOffences/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id, ExpiationDetails vm)
         {
             if (id == null || _context.ExpiationOffences == null)
             {
@@ -76,17 +76,24 @@ namespace SAExpiations.Controllers
             // join expiations database and the expiation offences database
 
             var year = DateTime.Now.Year;
+
+            Console.WriteLine(vm.selectedYear);
+            Console.WriteLine(vm.selectedYear);
+            Console.WriteLine(vm.selectedYear);
+            Console.WriteLine(vm.selectedYear);
+            Console.WriteLine(vm.selectedYear);
+
             // groupby
-            var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == year).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
+            var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == vm.selectedYear).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
 
                 NoticeStatusDesc = y.Key.NoticeStatusDesc,
                 IssueDate = y.Key.IssueDate,
                 StatusCount = y.Count(),
-                ExpiationOffenceCode = id
+                ExpiationOffenceCode = id,
 
             }).OrderBy(e => e.NoticeStatusDesc);
 
-            var result = query2.ToList();
+            var result = await query2.ToListAsync();
 
             return View(result);
         }
