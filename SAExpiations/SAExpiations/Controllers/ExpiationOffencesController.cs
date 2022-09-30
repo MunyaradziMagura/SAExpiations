@@ -77,11 +77,6 @@ namespace SAExpiations.Controllers
 
             var year = DateTime.Now.Year;
 
-            Console.WriteLine(vm.selectedYear);
-            Console.WriteLine(vm.selectedYear);
-            Console.WriteLine(vm.selectedYear);
-            Console.WriteLine(vm.selectedYear);
-            Console.WriteLine(vm.selectedYear);
 
             // groupby
             var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == vm.selectedYear).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
