@@ -23,21 +23,35 @@ namespace SAExpiations.Controllers
         }
 
         // GET: LocalServiceAreas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(LocationExpiationCounter? userSearch)
         {
             // get number of expiations per location
-            var query = _context.LocalServiceAreas.Select(p => new LocationExpiationCounter {
-            LocalServiceAreaCode = p.LocalServiceAreaCode,
+            var query = _context.LocalServiceAreas.Select(p => new LocationExpiationCounter
+            {
+                LocalServiceAreaCode = p.LocalServiceAreaCode,
                 LocalServiceArea1 = p.LocalServiceArea1,
                 NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode).Count()
-            });
-            
-            
-            return View(await query.ToListAsync());
+            }).OrderBy(e => e.LocalServiceArea1);
+
+            // check if userSearch is empty
+            if (!string.IsNullOrWhiteSpace(userSearch.SearchText))
+            {
+
+                // get number of expiations per location
+                var query2 = query.Where(e => e.LocalServiceArea1.StartsWith(userSearch.SearchText)).OrderBy(e => e.LocalServiceArea1);
+
+                return View(await query2.ToListAsync());
+            }
+            else {
+
+                return View(await query.ToListAsync());
+
+            }
+
         }
 
         // GET: LocalServiceAreas/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id, LocationServicesDetails? vm)
         {
             if (id == null || _context.LocalServiceAreas == null)
             {
