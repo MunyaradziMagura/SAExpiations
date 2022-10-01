@@ -10,8 +10,8 @@ Selecting a Expiation Code on the previous page navigates to this page which cle
 
 This view loads a monthly breakdown of expiations counts for the selected expiation code, year and grouped by the Notice Status Description.
 
-## View Three: Expiation Code List 
+## View Three: Local Service Area Expiations List 
 this view visuaises a List of Local Service Areas (in alphabetical order) and the total number of expiations for Aach area with the option to filter by the selected year
 
-## View Four: Expiation Code List 
+## View Four: Local Service Area Expiations Details
 This is the equivalent of the Expiation Codes Detail View except you are displaying the number of expiations for each Expiation Code in the selected Area and year.
