@@ -43,7 +43,7 @@ namespace SAExpiations.Controllers
                 ExpiationOffenceCode = p.ExpiationOffenceCode,
                 ExpiationOffenceDescription = p.ExpiationOffenceDescription,
                 SearchText = userSearch.SearchText,
-                ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode && c.IssueDate.Year == DateTime.Now.Year).Count()
+                ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode && c.IssueDate.Year == DateTime.Now.Year).Count(),
             });
 
             // add search filter 
