@@ -7,6 +7,6 @@
         public int IssueDate { get; set; }
         public int StatusCount { get; set; }
 
-        public int selectedYear { get; set; }
+        public int selectedYear { get; set; } = DateTime.Now.Year;
     }
 }

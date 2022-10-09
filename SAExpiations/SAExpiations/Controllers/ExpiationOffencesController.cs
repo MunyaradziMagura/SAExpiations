@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.VisualBasic;
 using SAExpiations.Data;
 using SAExpiations.Models;
 using SAExpiations.ViewModels;
@@ -42,10 +43,10 @@ namespace SAExpiations.Controllers
                 ExpiationOffenceCode = p.ExpiationOffenceCode,
                 ExpiationOffenceDescription = p.ExpiationOffenceDescription,
                 SearchText = userSearch.SearchText,
-                ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode).Count()
+                ExpiationCount = _context.Expiations.Where(c => c.ExpiationOffenceCode == p.ExpiationOffenceCode && c.IssueDate.Year == DateTime.Now.Year).Count()
             });
 
-
+            // add search filter 
             if (!string.IsNullOrWhiteSpace(userSearch.SearchText))
             {
                 var result = query2.Where(e => e.ExpiationOffenceCode.StartsWith(userSearch.SearchText) | e.ExpiationOffenceDescription.StartsWith(userSearch.SearchText)).OrderBy(e => e.ExpiationOffenceCode).ToList();
@@ -60,7 +61,7 @@ namespace SAExpiations.Controllers
         }
 
         // GET: ExpiationOffences/Details/5
-        public async Task<IActionResult> Details(string id, ExpiationDetails vm)
+        public async Task<IActionResult> Details(string id, ExpiationDetails? vm)
         {
             if (id == null || _context.ExpiationOffences == null)
             {
@@ -75,12 +76,20 @@ namespace SAExpiations.Controllers
             }
             // join expiations database and the expiation offences database
 
-            var year = DateTime.Now.Year;
+            var year = vm.selectedYear;
+            Console.WriteLine(year);
+            Console.WriteLine(year);
+            Console.WriteLine(year);
+            Console.WriteLine(year);
+            Console.WriteLine(year);
+            Console.WriteLine(year);
+
 
 
             // groupby
-            var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == vm.selectedYear).GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc }).Select(y => new ExpiationDetails {
-
+            var query2 = _context.Expiations.Where(e => e.ExpiationOffenceCode == id & e.IssueDate.Year == year)
+                .GroupBy(e => new { IssueDate = e.IssueDate.Month, NoticeStatusDesc = e.NoticeStatusDesc })
+                .Select(y => new ExpiationDetails {
                 NoticeStatusDesc = y.Key.NoticeStatusDesc,
                 IssueDate = y.Key.IssueDate,
                 StatusCount = y.Count(),

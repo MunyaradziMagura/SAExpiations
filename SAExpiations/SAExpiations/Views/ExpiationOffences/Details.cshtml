@@ -23,21 +23,23 @@
 
 <div>
     <h4>ExpiationOffence</h4>
+    <form method="get" asp-controller="ExpiationOffences" asp-action="Details">
     <!-- select year -->
-    <select>
-        <option> 2020</option>
-        <option> 2021</option>
-        <option> 2022</option>
-        <option> 2023</option>
-        <option> 2024</option>
-    </select>
+        <select name="selectedYear" id="selectedYear" class="form-select" aria-label="Default select example"></select>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <hr />
     <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th scope="col">Month</th>
-                <th scope="col">Description</th>
-                <th scope="col">Count</th>
+                <th scope="col">
+                    @Html.DisplayNameFor(Model => Model.NoticeStatusDesc)
+
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(Model => Model.StatusCount)
+                </th>
             </tr>
         </thead>
     @for(var month = 0; month < 12; month++) {
@@ -48,7 +50,9 @@
                     if (item.IssueDate == month + 1)
                     {
                     <tr class="@colours[item.NoticeStatusDesc]">
-                        <td colspan="2">
+                        <td>
+                        </td>
+                        <td colspan="1">
                                 @Html.DisplayFor(modelItem => item.NoticeStatusDesc)
                         </td>
                         <td>
@@ -85,3 +89,20 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script defer>
+    function addYears(){
+       let currentYear = new Date().getFullYear()
+       let numberYears = 4
+        var select = document.getElementById("selectedYear");
+
+        for (let i = 0 - (numberYears / 2); i < numberYears -1; i++){
+            let option = new Option(currentYear + i)
+            // append options 
+            select.appendChild(option)
+        }
+    }
+    addYears()
+
+
+</script>

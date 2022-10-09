@@ -30,7 +30,7 @@ namespace SAExpiations.Controllers
             {
                 LocalServiceAreaCode = p.LocalServiceAreaCode,
                 LocalServiceArea1 = p.LocalServiceArea1,
-                NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode).Count()
+                NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode && offence.IssueDate.Year == DateTime.Now.Year).Count()
             }).OrderBy(e => e.LocalServiceArea1);
 
             // check if userSearch is empty
@@ -128,7 +128,6 @@ namespace SAExpiations.Controllers
                     TotalExpiations = z.Count(),
                     SelectedYear = year,
                     SelectedArea = id
-
                 });
 
 
