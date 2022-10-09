@@ -17,7 +17,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <!--Input box for search-->
-                        <input maxlength="100" list="itemsList" class="form-control me-2" type="search" name="SearchText" placeholder="Search by category" aria-label="Search">
+                        <input maxlength="100" list="itemsList" class="form-control me-2" type="search" name="SearchText" placeholder="Search..." aria-label="Search">
                         <datalist id="itemsList">
                             @foreach (var item in Model)
                             {
@@ -28,6 +28,11 @@
                             }
                         </datalist>
                     </li>
+                    <li class="nav-item" style="padding-left: 1rem">
+                        <select name="selectedYear" id="selectedYear" class="form-select" aria-label="Default select example"></select>
+
+                    </li>
+
                     <li class="nav-item" style="padding-left: 1rem">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </li>
@@ -76,4 +81,21 @@
     </tbody>
 </table>
 </div>
+
+<script defer>
+    function addYears() {
+        let currentYear = new Date().getFullYear()
+        let numberYears = 4
+        var select = document.getElementById("selectedYear");
+
+        for (let i = 0 - (numberYears / 2); i < numberYears - 1; i++) {
+            let option = new Option(currentYear + i)
+            // append options
+            select.appendChild(option)
+        }
+    }
+    addYears()
+
+
+</script>
 

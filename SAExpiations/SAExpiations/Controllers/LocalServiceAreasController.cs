@@ -23,14 +23,15 @@ namespace SAExpiations.Controllers
         }
 
         // GET: LocalServiceAreas
-        public async Task<IActionResult> Index(LocationExpiationCounter? userSearch)
+        public async Task<IActionResult> Index(LocationExpiationCounter? userSearch, ExpiationDetails? vm)
         {
+            var year = vm.selectedYear;
             // get number of expiations per location
             var query = _context.LocalServiceAreas.Select(p => new LocationExpiationCounter
             {
                 LocalServiceAreaCode = p.LocalServiceAreaCode,
                 LocalServiceArea1 = p.LocalServiceArea1,
-                NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode && offence.IssueDate.Year == DateTime.Now.Year).Count()
+                NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode && offence.IssueDate.Year == year).Count()
             }).OrderBy(e => e.LocalServiceArea1);
 
             // check if userSearch is empty

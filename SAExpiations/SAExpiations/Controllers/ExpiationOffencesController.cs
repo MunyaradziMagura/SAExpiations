@@ -77,12 +77,7 @@ namespace SAExpiations.Controllers
             // join expiations database and the expiation offences database
 
             var year = vm.selectedYear;
-            Console.WriteLine(year);
-            Console.WriteLine(year);
-            Console.WriteLine(year);
-            Console.WriteLine(year);
-            Console.WriteLine(year);
-            Console.WriteLine(year);
+ 
 
 
 
