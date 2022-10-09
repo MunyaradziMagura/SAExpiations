@@ -25,10 +25,12 @@ namespace SAExpiations.Controllers
         // GET: LocalServiceAreas
         public async Task<IActionResult> Index(LocationExpiationCounter? userSearch, ExpiationDetails? vm)
         {
-            var year = vm.selectedYear;
+            int year = vm.selectedYear > 0 ? vm.selectedYear : DateTime.Now.Year;
+
             // get number of expiations per location
             var query = _context.LocalServiceAreas.Select(p => new LocationExpiationCounter
             {
+                selectedYear = year,
                 LocalServiceAreaCode = p.LocalServiceAreaCode,
                 LocalServiceArea1 = p.LocalServiceArea1,
                 NumberofExpiations = _context.Expiations.Where(offence => offence.LocalServiceAreaCode == p.LocalServiceAreaCode && offence.IssueDate.Year == year).Count()
@@ -67,7 +69,7 @@ namespace SAExpiations.Controllers
             }
 
             // selected year
-            var year = 2021;
+            var year = vm.SelectedYear;
 
 
             //var query = _context.Expiations.Where(e => e.IssueDate.Year == year & e.LocalServiceAreaCode == id).GroupBy(e => new

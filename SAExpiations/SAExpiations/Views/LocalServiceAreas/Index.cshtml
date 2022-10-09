@@ -62,7 +62,7 @@
 @foreach (var item in Model) {
                 if (item.NumberofExpiations >= 1)
                 {
-                    <tr onclick="window.open('@Url.Content("LocalServiceAreas/Details/"+item.LocalServiceAreaCode)')">
+                    <tr onclick="window.open('@Url.Content("LocalServiceAreas/Details/"+item.LocalServiceAreaCode+"/?SelectedYear="+item.selectedYear)')">
                         <td>
                     @Html.DisplayFor(modelItem => item.LocalServiceAreaCode)
                 </td>

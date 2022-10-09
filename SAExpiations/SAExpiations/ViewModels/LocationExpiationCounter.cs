@@ -7,7 +7,7 @@ namespace SAExpiations.ViewModels
     {
         [Display(Name = "SearchText")]
         public string? SearchText { get; set; }
-        public int selectedYear { get; set; } = DateTime.Now.Year;
+        public int selectedYear { get; set; }
 
         public string LocalServiceAreaCode { get; set; } = null!;
         public string? LocalServiceArea1 { get; set; }
