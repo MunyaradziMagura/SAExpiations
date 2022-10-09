@@ -4,9 +4,9 @@
 }
 
 <h1>Details</h1>
-
+<h1 id="location"></h1>
+<h1 id="year"></h1>
 <div>
-    <h4>LocalServiceArea</h4>
     <hr />
     <div>
         <a asp-action="Index">Back to List</a>
@@ -49,3 +49,14 @@
             </tbody>
         </table>
     </div>
+</div>
+
+    <script>
+        let url = window.location.href
+        let string = url.toString()
+        let urlArray = string.split("/")
+        let year = urlArray[6]
+        document.getElementById("location").innerText = "Location: "+ urlArray[5]
+        document.getElementById("year").innerText = "Year: " + year.substring(year.length - 4, year.length)
+
+    </script>
